@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+# Polyfill Example of Promises in React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Let's say you have a React project that you want to run in Internet Explorer 11, which doesn't support the `Promise` object. To make your code compatible with this browser, you can use a polyfill.
 
-## Available Scripts
+1. First, install the `es6-promise` package using npm:
+```
+npm install es6-promise
+```
+2. Next, import the polyfill at the top of your `index.js` file:
+```
+// index.js
 
-In the project directory, you can run:
+import 'es6-promise/auto';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-### `npm start`
+ReactDOM.render(<App />, document.getElementById('root'));
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Now you can use `Promise` objects in your React code without worrying about browser compatibility:
+```
+// App.js
 
-### `npm test`
+import React, { useEffect } from 'react';
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+function App() {
+  useEffect(() => {
+    // Create a new promise
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('Data loaded successfully!');
+      }, 2000);
+    });
 
-### `npm run build`
+    // Use the promise
+    promise.then((data) => {
+      console.log(data);
+    });
+  }, []);
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  return (
+    <div>
+      <h1>Hello, World!</h1>
+    </div>
+  );
+}
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+export default App;
+```
+In this example, we're using the `es6-promise` polyfill to support the use of `Promise` objects in our React code. We create a new `Promise` object that resolves after two seconds, and use the `then()` method to log the resolved value to the console.
